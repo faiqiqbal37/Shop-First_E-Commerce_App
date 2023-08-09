@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "291950441075",
+    "project_id": "shop-first-d5d48",
+    "storage_bucket": "shop-first-d5d48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291950441075:android:093803377926145aa3b006",
+        "android_client_info": {
+          "package_name": "com.example.shopfirst"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291950441075-pbiof8vascrhjitl7f7d0ti6g98idjnj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA57jeYbr5cAB6GCKMoAgJ5SnBKfOYvnXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291950441075-pbiof8vascrhjitl7f7d0ti6g98idjnj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "291950441075-04i9199ao6lue11kqh57lucqgo8dngu1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shopfirst"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
