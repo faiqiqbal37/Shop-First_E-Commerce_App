@@ -8,13 +8,14 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
   const LoginScreenView({Key? key}) : super(key: key);
 
   @override
-  Widget builder(
-    BuildContext context,
-    LoginScreenViewModel viewModel,
-    Widget? child,
-  ) {
+  Widget builder(BuildContext context,
+      LoginScreenViewModel viewModel,
+      Widget? child,) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme
+          .of(context)
+          .colorScheme
+          .background,
       body: Center(
         child: SafeArea(
           child: Column(
@@ -61,12 +62,13 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
                                 onPressed: () {
                                   viewModel
                                       .signInWithEmailAndPassword(
-                                          viewModel.emailController.text,
-                                          viewModel.passwordController.text)
-                                      .then((value) => {
-                                            viewModel.navigationController
-                                                .navigateToHomeView()
-                                          });
+                                      viewModel.emailController.text,
+                                      viewModel.passwordController.text)
+                                      .then((value) =>
+                                  {
+                                    viewModel.navigationController
+                                        .navigateToHomeView()
+                                  });
                                 },
                                 child: Text("Login"),
                               ),
@@ -84,7 +86,13 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
                         ),
                       ),
                       Container(
-                        child: Text(viewModel.errorMessage.toString()),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              viewModel.navigationController
+                                  .navigateToHomeView();
+                            },
+                            child: Text("Sign in As Guest"),
+                          ),
                       )
                     ],
                   ),
@@ -93,13 +101,12 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
             ],
           ),
         ),
-      ),
+      )
+      ,
     );
   }
 
   @override
-  LoginScreenViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
+  LoginScreenViewModel viewModelBuilder(BuildContext context,) =>
       LoginScreenViewModel();
 }
