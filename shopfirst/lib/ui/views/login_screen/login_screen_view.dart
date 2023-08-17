@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopfirst/app/app.router.dart';
+import 'package:shopfirst/ui/views/home/home_view.dart';
 import 'package:stacked/stacked.dart';
 
 import 'login_screen_viewmodel.dart';
@@ -18,87 +20,92 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
           .background,
       body: Center(
         child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                padding: EdgeInsets.all(50),
-                child: Text("Login Screen", style: TextStyle(fontSize: 30)),
-              ),
-              Container(
-                child: Form(
-                  key: viewModel.formKey,
-                  child: Column(
-                    children: [
-                      Container(
-                        child: TextFormField(
-                          controller: viewModel.emailController,
-                          decoration: InputDecoration(
-                            labelText: "Please Enter Email",
-                            labelStyle: TextStyle(fontSize: 20),
-                            contentPadding: EdgeInsets.all(20),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(50),
+                  child: Text("Login Screen", style: TextStyle(fontSize: 30)),
+                ),
+                Container(
+                  child: Form(
+                    key: viewModel.formKey,
+                    child: Column(
+                      children: [
+                        Container(
+                          child: TextFormField(
+                            validator: viewModel.validateEmail,
+                            controller: viewModel.emailController,
+                            decoration: InputDecoration(
+                              labelText: "Please Enter Email",
+                              labelStyle: TextStyle(fontSize: 20),
+                              contentPadding: EdgeInsets.all(20),
+                            ),
                           ),
+                          margin: EdgeInsets.all(15),
                         ),
-                        margin: EdgeInsets.all(15),
-                      ),
-                      Container(
-                        child: TextFormField(
-                          controller: viewModel.passwordController,
-                          decoration: InputDecoration(
-                            labelText: "Please Enter Password",
-                            labelStyle: TextStyle(fontSize: 20),
-                            contentPadding: EdgeInsets.all(20),
+                        Container(
+                          child: TextFormField(
+                            validator: viewModel.validatePassword,
+                            controller: viewModel.passwordController,
+                            decoration: InputDecoration(
+                              labelText: "Please Enter Password",
+                              labelStyle: TextStyle(fontSize: 20),
+                              contentPadding: EdgeInsets.all(20),
+                            ),
                           ),
+                          margin: EdgeInsets.all(15),
                         ),
-                        margin: EdgeInsets.all(15),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  viewModel
-                                      .signInWithEmailAndPassword(
-                                      viewModel.emailController.text,
-                                      viewModel.passwordController.text)
-                                      .then((value) =>
-                                  {
+                        Container(
+                          padding: EdgeInsets.all(15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    viewModel
+                                        .signInWithEmailAndPassword(
+                                        viewModel.emailController.text,
+                                        viewModel.passwordController.text)
+                                        .then((value) =>
+                                    {
+                                      if(viewModel.formKey.currentState!.validate()){
+                                        viewModel.navigationController
+                                          .clearStackAndShowView(HomeView())
+                                      }
+                                    });
+                                  },
+                                  child: Text("Login"),
+                                ),
+                              ),
+                              Container(
+                                child: ElevatedButton(
+                                  onPressed: () {
                                     viewModel.navigationController
-                                        .navigateToHomeView()
-                                  });
-                                },
-                                child: Text("Login"),
+                                        .navigateToSignupScreenView();
+                                  },
+                                  child: Text("Sign Up"),
+                                ),
                               ),
-                            ),
-                            Container(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  viewModel.navigationController
-                                      .navigateToSignupScreenView();
-                                },
-                                child: Text("Sign Up"),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              viewModel.navigationController
-                                  .navigateToHomeView();
-                            },
-                            child: Text("Sign in As Guest"),
+                            ],
                           ),
-                      )
-                    ],
+                        ),
+                        Container(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                viewModel.navigationController.navigateToHomeView();
+                              },
+                              child: Text("Sign in As Guest"),
+                            ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       )

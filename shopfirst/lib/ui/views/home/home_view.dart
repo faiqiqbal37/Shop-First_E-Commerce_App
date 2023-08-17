@@ -7,6 +7,7 @@ import 'package:shopfirst/ui/common/ui_helpers.dart';
 import 'package:shopfirst/Widgets/Navigation_Drawer.dart';
 
 import '../../../Widgets/Custom_Scaffold.dart';
+import '../../../Widgets/Product_Card.dart';
 import 'home_viewmodel.dart';
 
 class HomeView extends StackedView<HomeViewModel> {
@@ -92,12 +93,28 @@ class HomeView extends StackedView<HomeViewModel> {
                   ),
                   Container(
                     color: Colors.yellow,
-                    height: 245,
+                    height: 100,
                   ),
                   Container(
-                    color: Colors.purple,
-                    height: 245,
-                  )
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        Text(""),
+                        ProductCard(),
+                        ProductCard(),
+                        ProductCard(),
+                        ProductCard(),
+                        ProductCard(),
+                        ProductCard(),
+                        ProductCard(),
+                        ProductCard(),
+                        ProductCard(),
+                        ProductCard(),
+                        ProductCard(),
+                      ],
+                    ),
+                  ),
+
                 ],
               ),
             ),

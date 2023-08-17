@@ -1,8 +1,30 @@
+import 'package:shopfirst/services/product_service.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:uuid/uuid.dart';
 
-import '../../../models/product_model.dart';
+import '../../../app/app.locator.dart';
+import '../../../models/product/product_model.dart';
 
 class ProductsViewModel extends BaseViewModel {
+  final navigationController = locator<NavigationService>();
+  final productService = locator<ProductService>();
+
+  final Uuid uuid = Uuid();
+
+  Future<void> addProduct({
+    required String id,
+    required String name,
+    required String description,
+    required double price,
+    required double quantity,
+    required String category,
+    required String imageUrl,
+  }) async {
+    productService.addProduct(id: id, name: name, description: description, price: price, quantity: quantity, category: category, imageUrl: imageUrl);
+  }
+
+
   List<Product> products = [
     Product(
         id: "02",

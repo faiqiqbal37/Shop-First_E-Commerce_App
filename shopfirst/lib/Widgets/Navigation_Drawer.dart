@@ -3,11 +3,16 @@ import 'package:shopfirst/Widgets/Cart_Item.dart';
 import 'package:shopfirst/Widgets/Product_Card.dart';
 import 'package:shopfirst/app/app.locator.dart';
 import 'package:shopfirst/app/app.router.dart';
+import 'package:shopfirst/services/authentication_service.dart';
+import 'package:shopfirst/ui/views/login_screen/login_screen_view.dart';
 import 'package:shopfirst/ui/views/product_item/product_item_view.dart';
+import 'package:shopfirst/ui/views/signup_screen/signup_screen_view.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class MyDrawer extends StatelessWidget {
   final _navigationController = locator<NavigationService>();
+  final _authController = locator<AuthenticationService>();
+  String guest = "Guest";
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class MyDrawer extends StatelessWidget {
                   height: 60,
                   width: 60,
                   "https://cdn.pixabay.com/photo/2017/03/05/08/38/character-2117975_1280.png"),
-              Text('Hello Guest!'),
+              _authController.userToken == null ? Text("Hello Guest") :  Text('Hello ${_authController.userToken?.firstName }'),
               Divider(
                 height: 30,
                 color: Colors.black,
@@ -34,7 +39,7 @@ class MyDrawer extends StatelessWidget {
                   children: [
                     InkWell(
                       child: Text("Sign In"),
-                      onTap: () => {},
+                      onTap: () => {_navigationController.clearStackAndShowView(LoginScreenView())},
                     ),
                     Text(
                       "  |  ",
@@ -44,7 +49,7 @@ class MyDrawer extends StatelessWidget {
                     ),
                     InkWell(
                       child: Text("Register"),
-                      onTap: () => {},
+                      onTap: () => {_navigationController.clearStackAndShowView(SignupScreenView())},
                     ),
                   ],
                 ),
@@ -95,8 +100,12 @@ class MyDrawer extends StatelessWidget {
             thickness: 1,
           ),
           ElevatedButton(
-              onPressed: () =>
-                  _navigationController.navigateToLoginScreenView(),
+              onPressed: () {
+                _authController.signOut();
+                _navigationController.navigateToLoginScreenView();
+
+    },
+
               child: Text("Log Out"),
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

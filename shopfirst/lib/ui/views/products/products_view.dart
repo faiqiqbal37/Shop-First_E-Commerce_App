@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shopfirst/Widgets/Product_Card.dart';
+import 'package:shopfirst/app/app.router.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../Widgets/Navigation_Drawer.dart';
@@ -14,7 +16,25 @@ class ProductsView extends StackedView<ProductsViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      appBar: AppBar(title: Text("Products")),
+      appBar: AppBar(title: Text("Products"),
+          actions: [
+            IconButton(
+              onPressed: () =>
+              {viewModel.navigationController.navigateToUserDetailView()},
+              icon: Icon(Icons.account_box),
+              style: ButtonStyle(),
+            ),
+            IconButton(
+                onPressed: () =>
+                {viewModel.navigationController.navigateToCartView()},
+                icon: Icon(Icons.shopping_cart)),
+            // A demo function to add static products in firebase
+            // IconButton(
+            //     onPressed: () =>
+            //     {viewModel.addProduct(id: viewModel.uuid.v4(), name: "Samsung Galaxy s22", description: "Sasmung's Flagship Android Smartphone", price: 120000, quantity: 25, category: "phone", imageUrl: "https://firebasestorage.googleapis.com/v0/b/shop-first-d5d48.appspot.com/o/iphone.jpg?alt=media&token=a1080c1b-011b-45f3-8347-c50ad4290210")},
+            //     icon: Icon(Icons.shopping_cart))
+          ]
+      ),
       drawer: MyDrawer(),
       body: SafeArea(
           child: Column(
@@ -28,22 +48,18 @@ class ProductsView extends StackedView<ProductsViewModel> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
-                    color: Colors.green,
-                    height: 180,
-                  ),
-                  Container(
-                    color: Colors.red,
-                    height: 245,
-                  ),
-                  Container(
-                    color: Colors.yellow,
-                    height: 245,
-                  ),
-                  Container(
-                    color: Colors.purple,
-                    height: 245,
-                  )
+                  // ProductCard(),
+                  // ProductCard(),
+                  // ProductCard(),
+                  // ProductCard(),
+                  // ProductCard(),
+                  // ProductCard(),
+                  // ProductCard(),
+                  // ProductCard(),
+                  // ProductCard(),
+                  // ProductCard(),
+                  // ProductCard(),
+
                 ],
               ),
             ),

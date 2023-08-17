@@ -27,20 +27,20 @@ class UserDetailView extends StackedView<UserDetailViewModel> {
                   'https://via.placeholder.com/150'), // Replace with user image URL
             ),
             SizedBox(height: 16),
-            TextField(
+            TextFormField(
               controller: viewModel.nameController,
               decoration: InputDecoration(labelText: 'Name'),
             ),
-            TextField(
+            TextFormField(
               controller: viewModel.emailController,
               decoration: InputDecoration(labelText: 'Email'),
               keyboardType: TextInputType.emailAddress,
             ),
-            TextField(
+            TextFormField(
               controller: viewModel.addressController,
               decoration: InputDecoration(labelText: 'Address'),
             ),
-            TextField(
+            TextFormField(
               controller: viewModel.phoneController,
               decoration: InputDecoration(labelText: 'Phone Number'),
               keyboardType: TextInputType.phone,
@@ -48,7 +48,6 @@ class UserDetailView extends StackedView<UserDetailViewModel> {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Save user details logic
               },
               child: Text('Save'),
             ),
