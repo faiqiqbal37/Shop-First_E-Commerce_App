@@ -51,12 +51,11 @@ class SignupScreenView extends StackedView<SignupScreenViewModel> {
                             contentPadding: EdgeInsets.all(20),
                           ),
                         ),
-
                         Container(
                           child: TextFormField(
                             validator: viewModel.validateEmail,
                             controller: viewModel.emailController,
-                            keyboardType:TextInputType.emailAddress,
+                            keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               labelText: "Please Enter Email",
                               labelStyle: TextStyle(fontSize: 20),
@@ -117,49 +116,52 @@ class SignupScreenView extends StackedView<SignupScreenViewModel> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-
                                 child: ElevatedButton(
                                   onPressed: () {
                                     print("Button Pressed");
-                                    if(viewModel.formKey.currentState!.validate()) {
-
+                                    if (viewModel.formKey.currentState!
+                                        .validate()) {
                                       viewModel
-                                          .addUser(userId: viewModel.uuid.v4(),
-                                          phone: double.parse(
-                                              viewModel.phoneController.text),
-                                          password: viewModel.passwordController
-                                              .text,
-                                          email: viewModel.emailController.text,
-                                          address: viewModel.addressController
-                                              .text,
-                                          firstName: viewModel
-                                              .firstNameController.text,
-                                          lastName: viewModel.lastNameController
-                                              .text).then((value) =>
-                                          viewModel.signUpWithEmailAndPassword(
+                                          .addUser(
+                                              phone: double.parse(viewModel
+                                                  .phoneController.text),
+                                              password: viewModel
+                                                  .passwordController.text,
+                                              email: viewModel
+                                                  .emailController.text,
+                                              address: viewModel
+                                                  .addressController.text,
+                                              firstName: viewModel
+                                                  .firstNameController.text,
+                                              lastName: viewModel
+                                                  .lastNameController.text)
+                                          .then((value) => viewModel.signUpWithEmailAndPassword(
                                               viewModel.emailController.text,
-                                              viewModel.passwordController
-                                                  .text))
-                                          .then((value) =>
-                                          viewModel.showSnackbarSignUp(context))
-                                          .then((value) =>
-                                          viewModel
+                                              viewModel
+                                                  .passwordController.text))
+                                          .then((value) => viewModel
+                                              .showSnackbarSignUp(context))
+                                          .then((value) => viewModel
                                               .navigationController
                                               .clearStackAndShowView(LoginScreenView()));
                                     }
-                                    },
-                                  style: ButtonStyle(alignment: Alignment.center,),
+                                  },
+                                  style: ButtonStyle(
+                                    alignment: Alignment.center,
+                                  ),
                                   child: Text("Sign Up"),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
                         SizedBox(
                           child: InkWell(
-                            onTap: () => viewModel.navigationController.navigateToLoginScreenView(),
-                            child: Text("Back to Login Page", textAlign: TextAlign.center, style: TextStyle(fontSize: 16)),
+                            onTap: () => viewModel.navigationController
+                                .navigateToLoginScreenView(),
+                            child: Text("Back to Login Page",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 16)),
                           ),
                         )
                       ],

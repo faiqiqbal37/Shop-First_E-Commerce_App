@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shopfirst/services/product_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -21,9 +22,19 @@ class ProductsViewModel extends BaseViewModel {
     required String category,
     required String imageUrl,
   }) async {
-    productService.addProduct(id: id, name: name, description: description, price: price, quantity: quantity, category: category, imageUrl: imageUrl);
+    productService.addProduct(
+        id: id,
+        name: name,
+        description: description,
+        price: price,
+        quantity: quantity,
+        category: category,
+        imageUrl: imageUrl);
   }
 
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getProducts() async {
+    return productService.getProducts();
+  }
 
   List<Product> products = [
     Product(

@@ -8,22 +8,16 @@ class UserService {
   // FirebaseDatabase.instance.ref().child('users');
 
   final db = FirebaseFirestore.instance;
-
+  final Uuid uuid = Uuid();
   late final User user;
-  late final String userId;
 
-  void setUserId(String id) {
-    userId = id;
-  }
-
-  Future<void> setUser() async {
-
-  }
+  Future<void> setUser() async {}
 
   Future<void> findUserByEmail(String emailToSearch) async {
-
-    QuerySnapshot querySnapshot = await db.collection('users').where('email', isEqualTo: emailToSearch).get();
-
+    QuerySnapshot querySnapshot = await db
+        .collection('users')
+        .where('email', isEqualTo: emailToSearch)
+        .get();
 
     if (querySnapshot.docs.isNotEmpty) {
       Map<dynamic, dynamic> usersMap = querySnapshot.docs as Map;
@@ -39,16 +33,7 @@ class UserService {
     }
   }
 
-
-
-  void setUserAfterLogin() {
-
-  }
-
-
-
   Future<void> addUser({
-    required String userId,
     required String firstName,
     required String lastName,
     required String email,
@@ -56,8 +41,9 @@ class UserService {
     required double phone,
     required String address,
   }) async {
-     user = User(
-        userId: userId,
+    String id = uuid.v4();
+    user = User(
+        userId: id,
         firstName: firstName,
         lastName: lastName,
         email: email,
@@ -65,8 +51,10 @@ class UserService {
         phone: phone,
         address: address);
     try {
-      await db.collection("users")
-          .add(user.toJson()); // Use .toJson() function
+      await db
+          .collection("users")
+          .doc(id)
+          .set(user.toJson()); // Use .toJson() function
     } catch (e) {
       print('Error adding user: $e');
       rethrow;
@@ -75,27 +63,35 @@ class UserService {
 
   Future<void> updateUser({
     required String userId,
-    required String name,
+    required String firstname,
+    required String lastname,
     required double phone,
     required String address,
   }) async {
     try {
-      await db.collection("users").doc(userId)
-          .set(
-          {
-            'name': name,
-            'phone': phone.toString(),
-            'address': address
-          }
-
-      ); // Use .toJson() function
+      await db.collection("users").doc(userId).update({
+        'firstName': firstname,
+        'lastName': lastname,
+        'phone': phone,
+        'address': address
+      }); // Use .toJson() function
     } catch (e) {
       print('Error updating user: $e');
       rethrow;
     }
   }
 
-  Future<void> getCurrentUser() async {
-
+  Future<void> updateUserPassword({
+    required String userId,
+    required String password,
+  }) async {
+    try {
+      await db.collection("users").doc(userId).update({
+        'password': password,
+      }); // Use .toJson() function
+    } catch (e) {
+      print('Error updating user: $e');
+      rethrow;
+    }
   }
 }

@@ -2,7 +2,6 @@ import 'package:shopfirst/models/product/product_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-
 part 'wishlist_model.freezed.dart';
 part 'wishlist_model.g.dart';
 

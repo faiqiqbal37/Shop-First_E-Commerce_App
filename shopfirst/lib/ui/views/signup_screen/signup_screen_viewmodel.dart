@@ -20,16 +20,14 @@ class SignupScreenViewModel extends BaseViewModel {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-
-
 
   Exception errorMessage = Exception();
 
@@ -45,14 +43,10 @@ class SignupScreenViewModel extends BaseViewModel {
   }
 
   Future<void> signUpWithEmailAndPassword(String email, String password) async {
-
     authService.signUpWithEmailAndPassword(email, password);
-
   }
 
-
   Future<void> addUser({
-    required String userId,
     required String firstName,
     required String lastName,
     required String email,
@@ -60,14 +54,13 @@ class SignupScreenViewModel extends BaseViewModel {
     required double phone,
     required String address,
   }) async {
-    userService.addUser(firstName: firstName,lastName: lastName ,address: address ,email: email,password: password,phone: phone,userId: userId);
-  }
-
-  void createUserId(){
-    userId = uuid.v4();
-  }
-  void setUserId(String id){
-    userService.userId = id;
+    userService.addUser(
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+        email: email,
+        password: password,
+        phone: phone);
   }
 
   Future<void> signUpWithPhoneNumber(String phone, String password) async {}
@@ -85,7 +78,8 @@ class SignupScreenViewModel extends BaseViewModel {
     if (value == null || value.isEmpty) {
       return 'Please enter an email address';
     }
-    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value)) {
+    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+        .hasMatch(value)) {
       return 'Please enter a valid email address';
     }
     return null; // No validation errors
@@ -98,7 +92,7 @@ class SignupScreenViewModel extends BaseViewModel {
     if (value.length > 11) {
       return 'Phone number must not be more than 11 characters';
     }
-    if(value.length < 11){
+    if (value.length < 11) {
       return 'Enter a valid number';
     }
     return null; // No validation errors
@@ -144,8 +138,6 @@ class SignupScreenViewModel extends BaseViewModel {
     }
     return null; // No validation errors
   }
-
-
 
   String get password => _password;
 

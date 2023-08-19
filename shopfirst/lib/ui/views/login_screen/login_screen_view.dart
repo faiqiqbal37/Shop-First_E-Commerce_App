@@ -10,14 +10,13 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
   const LoginScreenView({Key? key}) : super(key: key);
 
   @override
-  Widget builder(BuildContext context,
-      LoginScreenViewModel viewModel,
-      Widget? child,) {
+  Widget builder(
+    BuildContext context,
+    LoginScreenViewModel viewModel,
+    Widget? child,
+  ) {
     return Scaffold(
-      backgroundColor: Theme
-          .of(context)
-          .colorScheme
-          .background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: SafeArea(
           child: SingleChildScrollView(
@@ -65,17 +64,10 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
                               Container(
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    viewModel
-                                        .signInWithEmailAndPassword(
+                                    viewModel.signInWithEmailAndPassword(
                                         viewModel.emailController.text,
-                                        viewModel.passwordController.text)
-                                        .then((value) =>
-                                    {
-                                      if(viewModel.formKey.currentState!.validate()){
-                                        viewModel.navigationController
-                                          .clearStackAndShowView(HomeView())
-                                      }
-                                    });
+                                        viewModel.passwordController.text,
+                                        context);
                                   },
                                   child: Text("Login"),
                                 ),
@@ -93,12 +85,13 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
                           ),
                         ),
                         Container(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                viewModel.navigationController.navigateToHomeView();
-                              },
-                              child: Text("Sign in As Guest"),
-                            ),
+                          child: InkWell(
+                            onTap: () {
+                              viewModel.navigationController
+                                  .clearStackAndShowView(HomeView());
+                            },
+                            child: Text("Sign in As Guest"),
+                          ),
                         )
                       ],
                     ),
@@ -108,12 +101,13 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
             ),
           ),
         ),
-      )
-      ,
+      ),
     );
   }
 
   @override
-  LoginScreenViewModel viewModelBuilder(BuildContext context,) =>
+  LoginScreenViewModel viewModelBuilder(
+    BuildContext context,
+  ) =>
       LoginScreenViewModel();
 }

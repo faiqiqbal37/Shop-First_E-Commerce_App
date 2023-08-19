@@ -38,38 +38,18 @@ class LoginScreenViewModel extends BaseViewModel {
   //   print('The id is ${user.userId} and name is ${user.firstName}');
   // }
 
-  @override
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
-    authService.signInWithEmailAndPassword(email, password);
-    authService.setStateOfUser(email);
+  Future<void> signInWithEmailAndPassword(
+      String email, String password, BuildContext context) async {
+    if (formKey.currentState!.validate()) {
+      authService.signInWithEmailAndPassword(email, password, context);
+      authService.setStateOfUser(email);
+    }
   }
 
-  @override
   Future<void> signInWithPhoneNumber(String phone) async {
     authService.signInWithPhoneNumber(phone);
   }
 
-  @override
-  Future<void> signUpWithEmailAndPassword(String email, String password) async {
-    try {
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-    } catch (e) {
-      print("Error: $e");
-    }
-  }
-
-  @override
-  Future<void> signUpWithPhoneNumber(String phone, String password) async {}
-
-  void showSnackbarSignUp(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('User Signed Up Successfully!'),
-        duration: Duration(seconds: 2), // Adjust the duration as needed
-      ),
-    );
-  }
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter a password';
@@ -84,12 +64,12 @@ class LoginScreenViewModel extends BaseViewModel {
     if (value == null || value.isEmpty) {
       return 'Please enter an email address';
     }
-    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value)) {
+    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+        .hasMatch(value)) {
       return 'Please enter a valid email address';
     }
     return null; // No validation errors
   }
-
 
   String get password => _password;
 

@@ -2,7 +2,6 @@ import 'package:shopfirst/models/product/product_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'order_model.freezed.dart';
 part 'order_model.g.dart';
 

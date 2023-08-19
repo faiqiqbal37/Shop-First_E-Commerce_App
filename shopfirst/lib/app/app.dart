@@ -17,6 +17,7 @@ import 'package:shopfirst/ui/views/cart/cart_view.dart';
 import 'package:shopfirst/ui/views/product_item/product_item_view.dart';
 import 'package:shopfirst/ui/views/user_detail/user_detail_view.dart';
 
+import 'package:shopfirst/ui/views/change_password/change_password_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -29,6 +30,7 @@ import 'package:shopfirst/ui/views/user_detail/user_detail_view.dart';
     MaterialRoute(page: CartView),
     MaterialRoute(page: ProductItemView),
     MaterialRoute(page: UserDetailView),
+    MaterialRoute(page: ChangePasswordView),
 // @stacked-route
   ],
   dependencies: [

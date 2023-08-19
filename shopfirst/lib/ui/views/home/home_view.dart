@@ -98,23 +98,9 @@ class HomeView extends StackedView<HomeViewModel> {
                   Container(
                     color: Colors.white,
                     child: Column(
-                      children: [
-                        Text(""),
-                        ProductCard(),
-                        ProductCard(),
-                        ProductCard(),
-                        ProductCard(),
-                        ProductCard(),
-                        ProductCard(),
-                        ProductCard(),
-                        ProductCard(),
-                        ProductCard(),
-                        ProductCard(),
-                        ProductCard(),
-                      ],
+                      children: [],
                     ),
                   ),
-
                 ],
               ),
             ),

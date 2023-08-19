@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:shopfirst/app/app.router.dart';
+import 'package:shopfirst/ui/views/home/home_view.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:shopfirst/models/user/user_model.dart' as UserModel;
 
@@ -10,11 +11,18 @@ import '../app/app.locator.dart';
 
 class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final DatabaseReference _userRef = FirebaseDatabase.instance.ref().child('users');
-   final db = FirebaseFirestore.instance.collection('users');
+  final DatabaseReference _userRef =
+      FirebaseDatabase.instance.ref().child('users');
+  final db = FirebaseFirestore.instance.collection('users');
 
-
-  UserModel.User? userToken = UserModel.User(userId: 'id', firstName: 'firstName', lastName: 'lastName', email: 'email', password: 'password', phone: 11111111111, address: 'address');
+  UserModel.User? userToken = UserModel.User(
+      userId: 'id',
+      firstName: 'Guest',
+      lastName: 'lastName',
+      email: 'email',
+      password: 'password',
+      phone: 11111111111,
+      address: 'address');
 
   final navigationController = locator<NavigationService>();
 
@@ -27,7 +35,6 @@ class AuthenticationService {
     }
   }
 
-
   void showSnackbarSignUp(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -37,27 +44,29 @@ class AuthenticationService {
     );
   }
 
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
+  Future<void> signInWithEmailAndPassword(
+      String email, String password, BuildContext context) async {
     try {
-      final List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(email);
-      if (signInMethods.contains('password')) {
-        // Email exists, now attempt to sign in with email and password
-        await _auth.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        // Successfully signed in
-        print('Logged in as: ${email}');
-      } else {
-        // Email does not exist
-        print('Email not registered');
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+      final UserCredential userCredential =
+          await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        // Successful login, navigate to home or another screen
+        navigationController.clearStackAndShowView(HomeView());
       }
     } catch (e) {
-      // Handle errors
-      print('Login error: $e');
+      // Handle login failure (e.g., display error message)
+      print('Login Error: ${e}');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Login failed: $e'),
+      ));
     }
   }
-
 
   Future<void> signInWithPhoneNumber(String phone) async {
     try {
@@ -68,21 +77,53 @@ class AuthenticationService {
     }
   }
 
-  Future<void> signOut() async{
-    try{
+  Future<void> signOut() async {
+    try {
       _auth.signOut();
-      userToken = null;
-
+      userToken = UserModel.User(
+          userId: 'id',
+          firstName: 'Guest',
+          lastName: 'lastName',
+          email: 'email',
+          password: 'password',
+          phone: 11111111111,
+          address: 'address');
+    } catch (e) {
+      print("The User cant be signed out due to $e");
     }
-        catch(e){
-          print("The User cant be signed out due to $e");
-        }
+  }
+
+  Future<void> changePassword(String newPassword) async {
+    try {
+      // Get the current user
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Reauthenticate the user (optional, if required by your security rules)
+        // For example, if you want to ensure the user is the legitimate owner of the account
+        AuthCredential credential = EmailAuthProvider.credential(
+          email: user.email!,
+          password: 'currentPassword', // User's current password
+        );
+
+        // Reauthenticate the user
+        await user.reauthenticateWithCredential(credential);
+
+        // Change the user's password
+        await user.updatePassword(newPassword);
+
+        print('Password changed successfully');
+      } else {
+        print('No user is currently signed in');
+      }
+    } catch (e) {
+      print('Error changing password: $e');
+    }
   }
 
   Future<void> setStateOfUser(String emailToSearch) async {
-
-    QuerySnapshot querySnapshot = await db.where('email', isEqualTo: emailToSearch).get();
-
+    QuerySnapshot querySnapshot =
+        await db.where('email', isEqualTo: emailToSearch).get();
 
     if (querySnapshot.docs.isNotEmpty) {
       querySnapshot.docs.forEach((doc) {
@@ -94,9 +135,14 @@ class AuthenticationService {
         print('Email: ${userToken?.email}');
         print('Logged in status: ${userToken?.isLoggedIn}');
       });
-    }  else {
+    } else {
       print('User not found');
     }
   }
 
+  UserModel.User? getUser() {
+    if (userToken != null) {
+      return userToken;
+    }
+  }
 }
