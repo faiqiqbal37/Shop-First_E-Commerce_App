@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopfirst/Widgets/Cart_Item.dart';
+import 'package:shopfirst/app/app.router.dart';
 import 'package:shopfirst/styles/styles.dart';
 import 'package:stacked/stacked.dart';
 
@@ -27,17 +28,15 @@ class CartView extends StackedView<CartViewModel> {
                   style: AppTextStyles.headerStyle,
                   textAlign: TextAlign.center)),
           Expanded(
-              child: SingleChildScrollView(
-            child: Column(
-              children: [
-                CartItem(),
-                CartItem(),
-                CartItem(),
-                CartItem(),
-                CartItem(),
-              ],
+            child: ListView.builder(
+              itemCount: viewModel.cartService.cartProductsList.length,
+              itemBuilder: (context, index) {
+                final product =
+                    viewModel.cartService.cartProductsList.elementAt(index);
+                return CartItem(cartItem: product);
+              },
             ),
-          )),
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -52,25 +51,45 @@ class CartView extends StackedView<CartViewModel> {
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text("Items(3)"), Text("32")],
+                            children: [
+                              Text(
+                                  "Items(${viewModel.cartService.cartProductsList.length})"),
+                              Text(viewModel.cartService.cartProductsList
+                                          .length ==
+                                      0
+                                  ? "PKR: 0"
+                                  : "PKR: ${viewModel.calculateTotalPrice()}")
+                            ],
                           ),
                         ),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text("Shipping"), Text("32")],
+                            children: [Text("Shipping"), Text("PKR: 150")],
                           ),
                         ),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text("Total"), Text("32")],
+                            children: [
+                              Text("Total"),
+                              Text(viewModel
+                                      .cartService.cartProductsList.isNotEmpty
+                                  ? "PKR: ${viewModel.totalCartPrice + 150}"
+                                  : "PKR: 0")
+                            ],
                           ),
                         ),
                         Container(
-                          child: ElevatedButton(
-                              onPressed: () => {}, child: Text("Checkout")),
-                        )
+                            child: viewModel.authService.userToken!.isLoggedIn
+                                ? ElevatedButton(
+                                    onPressed: () =>
+                                        {viewModel.navigationService.navigateToCheckoutView()},
+                                    child: Text("Checkout"))
+                                : ElevatedButton(
+                                    onPressed: () => viewModel.navigationService
+                                        .navigateToLoginScreenView(),
+                                    child: Text("Login To Proceed")))
                       ],
                     ),
                   )

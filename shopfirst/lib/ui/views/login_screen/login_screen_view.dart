@@ -16,7 +16,7 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Colors.white,
       body: Center(
         child: SafeArea(
           child: SingleChildScrollView(
@@ -24,8 +24,13 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.all(50),
-                  child: Text("Login Screen", style: TextStyle(fontSize: 30)),
+                  height: 200,
+                  child: Image(
+                      image: AssetImage(
+                          'assets/Logo/Minimalist Happy Shopping Logo.png')),
+                ),
+                Container(
+                  child: Text("Login Screen", style: TextStyle(fontSize: 25)),
                 ),
                 Container(
                   child: Form(
@@ -38,6 +43,7 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
                             controller: viewModel.emailController,
                             decoration: InputDecoration(
                               labelText: "Please Enter Email",
+                              prefixIcon: Icon(Icons.email),
                               labelStyle: TextStyle(fontSize: 20),
                               contentPadding: EdgeInsets.all(20),
                             ),
@@ -48,11 +54,20 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
                           child: TextFormField(
                             validator: viewModel.validatePassword,
                             controller: viewModel.passwordController,
+                            obscureText: viewModel.obscureText,
                             decoration: InputDecoration(
-                              labelText: "Please Enter Password",
-                              labelStyle: TextStyle(fontSize: 20),
-                              contentPadding: EdgeInsets.all(20),
-                            ),
+                                labelText: "Please Enter Password",
+                                labelStyle: TextStyle(fontSize: 20),
+                                contentPadding: EdgeInsets.all(20),
+                                prefixIcon: Icon(Icons.lock),
+                                suffixIcon: IconButton(
+                                    icon: Icon(
+                                      viewModel.obscureText
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () =>
+                                        {viewModel.toggleObscureText()})),
                           ),
                           margin: EdgeInsets.all(15),
                         ),
@@ -85,14 +100,29 @@ class LoginScreenView extends StackedView<LoginScreenViewModel> {
                           ),
                         ),
                         Container(
-                          child: InkWell(
-                            onTap: () {
-                              viewModel.navigationController
-                                  .clearStackAndShowView(HomeView());
-                            },
-                            child: Text("Sign in As Guest"),
+                          margin: EdgeInsets.only(left: 100),
+                          child: Divider(
+                            thickness: 2,
+                            color: Colors.black,
+                            endIndent: 110,
                           ),
-                        )
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: InkWell(
+                                onTap: () {
+                                  viewModel.navigationController
+                                      .clearStackAndShowView(HomeView());
+                                },
+                                child: Text(" Sign in as Guest",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.blue)),
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   ),

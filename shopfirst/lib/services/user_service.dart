@@ -9,10 +9,6 @@ class UserService {
 
   final db = FirebaseFirestore.instance;
   final Uuid uuid = Uuid();
-  late final User user;
-
-  Future<void> setUser() async {}
-
   Future<void> findUserByEmail(String emailToSearch) async {
     QuerySnapshot querySnapshot = await db
         .collection('users')
@@ -42,7 +38,7 @@ class UserService {
     required String address,
   }) async {
     String id = uuid.v4();
-    user = User(
+    User user = User(
         userId: id,
         firstName: firstName,
         lastName: lastName,

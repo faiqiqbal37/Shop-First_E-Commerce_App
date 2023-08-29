@@ -15,7 +15,6 @@ class ChangePasswordViewModel extends BaseViewModel {
 
   final formKey = GlobalKey<FormState>();
 
-
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
 
@@ -50,8 +49,8 @@ class ChangePasswordViewModel extends BaseViewModel {
   Future<void> changePassword(String newPassword) async {
     if (formKey.currentState!.validate()) {
       authService.changePassword(newPassword);
-      userService.updateUserPassword(userId: authService.userToken!.userId, password:newPassword);
+      userService.updateUserPassword(
+          userId: authService.userToken!.userId, password: newPassword);
     }
   }
-
 }

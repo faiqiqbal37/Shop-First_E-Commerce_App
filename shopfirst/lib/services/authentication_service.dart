@@ -2,10 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shopfirst/app/app.bottomsheets.dart';
+import 'package:shopfirst/app/app.dialogs.dart';
 import 'package:shopfirst/app/app.router.dart';
 import 'package:shopfirst/ui/views/home/home_view.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:shopfirst/models/user/user_model.dart' as UserModel;
+import 'package:restart_app/restart_app.dart';
 
 import '../app/app.locator.dart';
 
@@ -14,6 +18,7 @@ class AuthenticationService {
   final DatabaseReference _userRef =
       FirebaseDatabase.instance.ref().child('users');
   final db = FirebaseFirestore.instance.collection('users');
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   UserModel.User? userToken = UserModel.User(
       userId: 'id',
@@ -88,6 +93,10 @@ class AuthenticationService {
           password: 'password',
           phone: 11111111111,
           address: 'address');
+      await locator.reset(dispose: true);
+      setupLocator();
+      setupDialogUi();
+      setupBottomSheetUi();
     } catch (e) {
       print("The User cant be signed out due to $e");
     }
@@ -122,6 +131,7 @@ class AuthenticationService {
   }
 
   Future<void> setStateOfUser(String emailToSearch) async {
+    print("In Function SetState");
     QuerySnapshot querySnapshot =
         await db.where('email', isEqualTo: emailToSearch).get();
 
@@ -137,6 +147,32 @@ class AuthenticationService {
       });
     } else {
       print('User not found');
+    }
+  }
+
+  Future<User?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+        final UserCredential authResult =
+            await _auth.signInWithCredential(credential);
+        final User? user = authResult.user;
+
+        return user;
+      }
+
+      return null;
+    } catch (e) {
+      print(e.toString());
+      return null;
     }
   }
 

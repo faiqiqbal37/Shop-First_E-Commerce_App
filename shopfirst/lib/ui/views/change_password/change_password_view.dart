@@ -8,9 +8,11 @@ class ChangePasswordView extends StackedView<ChangePasswordViewModel> {
   const ChangePasswordView({Key? key}) : super(key: key);
 
   @override
-  Widget builder(BuildContext context,
-      ChangePasswordViewModel viewModel,
-      Widget? child,) {
+  Widget builder(
+    BuildContext context,
+    ChangePasswordViewModel viewModel,
+    Widget? child,
+  ) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit User Details'),
@@ -31,25 +33,26 @@ class ChangePasswordView extends StackedView<ChangePasswordViewModel> {
                 TextFormField(
                   validator: viewModel.validateConfirmPassword,
                   controller: viewModel.confirmController,
-                  decoration: InputDecoration(labelText: 'Confirm New Password'),
+                  decoration:
+                      InputDecoration(labelText: 'Confirm New Password'),
                 ),
-
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    if (viewModel.formKey.currentState!.validate())
-                    {viewModel.changePassword(viewModel.passwordController.text).then((value) => viewModel.clearFields(context));
-                  }},
+                    if (viewModel.formKey.currentState!.validate()) {
+                      viewModel
+                          .changePassword(viewModel.passwordController.text)
+                          .then((value) => viewModel.clearFields(context));
+                    }
+                  },
                   child: Text('Save'),
                 ),
                 SizedBox(
                   height: 25,
                 ),
-
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 

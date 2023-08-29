@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shopfirst/services/authentication_service.dart';
+import 'package:shopfirst/services/cart_service.dart';
 import 'package:shopfirst/services/order_service.dart';
 import 'package:shopfirst/services/product_service.dart';
 import 'package:shopfirst/services/user_service.dart';
@@ -18,7 +19,9 @@ import 'package:shopfirst/ui/views/product_item/product_item_view.dart';
 import 'package:shopfirst/ui/views/user_detail/user_detail_view.dart';
 
 import 'package:shopfirst/ui/views/change_password/change_password_view.dart';
-// @stacked-import
+
+import '../ui/views/checkout/checkout_view.dart';
+import '../ui/views/wishlist/wishlist_view.dart';
 
 @StackedApp(
   routes: [
@@ -31,6 +34,10 @@ import 'package:shopfirst/ui/views/change_password/change_password_view.dart';
     MaterialRoute(page: ProductItemView),
     MaterialRoute(page: UserDetailView),
     MaterialRoute(page: ChangePasswordView),
+
+    MaterialRoute(page: WishlistView),
+    MaterialRoute(page: CheckoutView),
+
 // @stacked-route
   ],
   dependencies: [
@@ -41,6 +48,7 @@ import 'package:shopfirst/ui/views/change_password/change_password_view.dart';
     LazySingleton(classType: OrderService),
     LazySingleton(classType: ProductService),
     LazySingleton(classType: UserService),
+    LazySingleton(classType: CartService),
 // @stacked-service
   ],
   bottomsheets: [

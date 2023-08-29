@@ -5,11 +5,14 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i11;
+import 'package:flutter/foundation.dart' as _i14;
+import 'package:flutter/material.dart' as _i13;
 import 'package:flutter/material.dart';
+import 'package:shopfirst/models/product/product_model.dart' as _i15;
 import 'package:shopfirst/ui/views/cart/cart_view.dart' as _i7;
 import 'package:shopfirst/ui/views/change_password/change_password_view.dart'
     as _i10;
+import 'package:shopfirst/ui/views/checkout/checkout_view.dart' as _i12;
 import 'package:shopfirst/ui/views/home/home_view.dart' as _i5;
 import 'package:shopfirst/ui/views/login_screen/login_screen_view.dart' as _i3;
 import 'package:shopfirst/ui/views/product_item/product_item_view.dart' as _i8;
@@ -18,8 +21,9 @@ import 'package:shopfirst/ui/views/signup_screen/signup_screen_view.dart'
     as _i4;
 import 'package:shopfirst/ui/views/startup/startup_view.dart' as _i2;
 import 'package:shopfirst/ui/views/user_detail/user_detail_view.dart' as _i9;
+import 'package:shopfirst/ui/views/wishlist/wishlist_view.dart' as _i11;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i12;
+import 'package:stacked_services/stacked_services.dart' as _i16;
 
 class Routes {
   static const startupView = '/startup-view';
@@ -40,6 +44,10 @@ class Routes {
 
   static const changePasswordView = '/change-password-view';
 
+  static const wishlistView = '/wishlist-view';
+
+  static const checkoutView = '/checkout-view';
+
   static const all = <String>{
     startupView,
     loginScreenView,
@@ -50,6 +58,8 @@ class Routes {
     productItemView,
     userDetailView,
     changePasswordView,
+    wishlistView,
+    checkoutView,
   };
 }
 
@@ -91,60 +101,82 @@ class StackedRouter extends _i1.RouterBase {
       Routes.changePasswordView,
       page: _i10.ChangePasswordView,
     ),
+    _i1.RouteDef(
+      Routes.wishlistView,
+      page: _i11.WishlistView,
+    ),
+    _i1.RouteDef(
+      Routes.checkoutView,
+      page: _i12.CheckoutView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.StartupView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.StartupView(),
         settings: data,
       );
     },
     _i3.LoginScreenView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.LoginScreenView(),
         settings: data,
       );
     },
     _i4.SignupScreenView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.SignupScreenView(),
         settings: data,
       );
     },
     _i5.HomeView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.HomeView(),
         settings: data,
       );
     },
     _i6.ProductsView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.ProductsView(),
         settings: data,
       );
     },
     _i7.CartView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.CartView(),
         settings: data,
       );
     },
     _i8.ProductItemView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i8.ProductItemView(),
+      final args = data.getArgs<ProductItemViewArguments>(nullOk: false);
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            _i8.ProductItemView(key: args.key, product: args.product),
         settings: data,
       );
     },
     _i9.UserDetailView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i9.UserDetailView(),
         settings: data,
       );
     },
     _i10.ChangePasswordView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i10.ChangePasswordView(),
+        settings: data,
+      );
+    },
+    _i11.WishlistView: (data) {
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i11.WishlistView(),
+        settings: data,
+      );
+    },
+    _i12.CheckoutView: (data) {
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i12.CheckoutView(),
         settings: data,
       );
     },
@@ -156,7 +188,34 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i12.NavigationService {
+class ProductItemViewArguments {
+  const ProductItemViewArguments({
+    this.key,
+    required this.product,
+  });
+
+  final _i14.Key? key;
+
+  final _i15.Product product;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "product": "$product"}';
+  }
+
+  @override
+  bool operator ==(covariant ProductItemViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.product == product;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ product.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i16.NavigationService {
   Future<dynamic> navigateToStartupView([
     int? routerId,
     bool preventDuplicates = true,
@@ -241,14 +300,17 @@ extension NavigatorStateExtension on _i12.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToProductItemView([
+  Future<dynamic> navigateToProductItemView({
+    _i14.Key? key,
+    required _i15.Product product,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.productItemView,
+        arguments: ProductItemViewArguments(key: key, product: product),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -277,6 +339,34 @@ extension NavigatorStateExtension on _i12.NavigationService {
         transition,
   ]) async {
     return navigateTo<dynamic>(Routes.changePasswordView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToWishlistView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.wishlistView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToCheckoutView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.checkoutView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -367,14 +457,17 @@ extension NavigatorStateExtension on _i12.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithProductItemView([
+  Future<dynamic> replaceWithProductItemView({
+    _i14.Key? key,
+    required _i15.Product product,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.productItemView,
+        arguments: ProductItemViewArguments(key: key, product: product),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -403,6 +496,34 @@ extension NavigatorStateExtension on _i12.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.changePasswordView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithWishlistView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.wishlistView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithCheckoutView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.checkoutView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

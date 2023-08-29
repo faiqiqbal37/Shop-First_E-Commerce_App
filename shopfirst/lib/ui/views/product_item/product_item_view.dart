@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:shopfirst/models/product/product_model.dart';
 import 'package:stacked/stacked.dart';
 
 import 'product_item_viewmodel.dart';
 
 class ProductItemView extends StackedView<ProductItemViewModel> {
-  const ProductItemView({Key? key}) : super(key: key);
+  final Product product;
+
+  const ProductItemView({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget builder(
@@ -14,35 +17,63 @@ class ProductItemView extends StackedView<ProductItemViewModel> {
   ) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Title"),
+        title: Text("${viewModel.product.name}"),
       ),
-      body: Center(
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(Icons.add),
-            SizedBox(height: 16),
-            Text(
-              "Title",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Container(
+              height: 305,
+              margin: EdgeInsets.only(bottom: 15),
+              child: Image.network(viewModel.product.imageUrl,
+                  width: 360, height: 305, fit: BoxFit.cover),
             ),
-            SizedBox(height: 8),
-            Text(
-              "Description",
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(bottom: 5, top: 5, left: 10, right: 10),
+              child: Text("${viewModel.product.name}"),
             ),
-            SizedBox(height: 16),
-            Text(
-              'Price',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(bottom: 5, top: 5, left: 10, right: 10),
+              child: Text(
+                "PKR: ${viewModel.product.price}",
+              ),
             ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Add logic to add product to cart
-              },
-              child: Text('Add to Cart'),
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(bottom: 5, top: 5, left: 10, right: 10),
+              child:
+                  Text("Category: ${viewModel.product.category.toUpperCase()}"),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin:
+                      EdgeInsets.only(bottom: 5, top: 5, left: 10, right: 10),
+                  child: ElevatedButton(
+                      onPressed: () => {viewModel.addProductToCart(product)},
+                      child: Text("Add To Cart"),
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size(260, 15),
+                      )),
+                ),
+                Container(
+                  margin:
+                      EdgeInsets.only(bottom: 5, top: 5, left: 10, right: 10),
+                  child: IconButton(
+                      iconSize: 35,
+                      icon: Icon(Icons.favorite),
+                      onPressed: () => {viewModel.addToWishList()}),
+                )
+              ],
+            ),
+            SizedBox(height: 25),
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(bottom: 5, top: 5, left: 10, right: 10),
+              child: Text("Description: ${viewModel.product.description}"),
             ),
           ],
         ),
@@ -54,5 +85,5 @@ class ProductItemView extends StackedView<ProductItemViewModel> {
   ProductItemViewModel viewModelBuilder(
     BuildContext context,
   ) =>
-      ProductItemViewModel();
+      ProductItemViewModel(product: product);
 }

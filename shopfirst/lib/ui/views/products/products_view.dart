@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shopfirst/Widgets/Category_Navbar.dart';
 import 'package:shopfirst/Widgets/Product_Card.dart';
 import 'package:shopfirst/app/app.router.dart';
 import 'package:stacked/stacked.dart';
@@ -25,22 +26,42 @@ class ProductsView extends StackedView<ProductsViewModel> {
           icon: Icon(Icons.account_box),
           style: ButtonStyle(),
         ),
-        IconButton(
-            onPressed: () =>
-                {viewModel.navigationController.navigateToCartView()},
-            icon: Icon(Icons.shopping_cart)),
+        Stack(alignment: Alignment.center, children: [
+          IconButton(
+              onPressed: () =>
+                  {viewModel.navigationController.navigateToCartView()},
+              icon: Icon(Icons.shopping_cart)),
+          Positioned(
+            right: 2,
+            top: 2,
+            child: Container(
+              padding: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                '${viewModel.getProductCountInCart()}', // Replace with your actual product count
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          )
+        ]),
         // A demo function to add static products in firebase
         IconButton(
             onPressed: () => {
                   viewModel.addProduct(
                       id: viewModel.uuid.v4(),
-                      name: "Iphone 12",
-                      description: "Apples's Flagship Smartphone",
-                      price: 100000,
-                      quantity: 20,
-                      category: "phone",
+                      name: "Haier Washing Machine",
+                      description: "Smart Washing Machine",
+                      price: 70000,
+                      quantity: 51,
+                      category: "Electronics",
                       imageUrl:
-                          "https://firebasestorage.googleapis.com/v0/b/shop-first-d5d48.appspot.com/o/iphone.jpg?alt=media&token=a1080c1b-011b-45f3-8347-c50ad4290210")
+                          "https://firebasestorage.googleapis.com/v0/b/shop-first-d5d48.appspot.com/o/pexels-photo-5591460.jpeg?alt=media&token=84e96441-3837-4c67-a770-34b375efdba8")
                 },
             icon: Icon(Icons.shopping_cart))
       ]),
@@ -50,15 +71,32 @@ class ProductsView extends StackedView<ProductsViewModel> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            color: Colors.cyan,
-            height: 90,
+            color: Colors.white,
+            height: 100,
+            child: Wrap(
+              children: [
+                SizedBox(
+                  height: 50,
+                  child: TextField(
+                      controller: viewModel.categoryController,
+                      onChanged: (value) =>
+                          {viewModel.getProductsBasedOnCategory(value)},
+                      decoration: InputDecoration(
+                          labelText: "Search",
+                          prefixIcon: Icon(Icons.search),
+                          iconColor: Colors.black)),
+                ),
+                SizedBox(
+                  child:
+                      CategoryNavbar(handleCallback: viewModel.handleCallback),
+                )
+              ],
+            ),
           ),
           Expanded(
             child: Container(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('products')
-                    .snapshots(),
+                stream: viewModel.db.snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
@@ -67,16 +105,21 @@ class ProductsView extends StackedView<ProductsViewModel> {
                   } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return Text('No products available');
                   } else {
-                    final products = snapshot.data!.docs
+                    viewModel.productService.products = snapshot.data!.docs
                         .map((doc) => Product.fromJson(
                             doc.data() as Map<String, dynamic>))
                         .toList();
 
                     return ListView.builder(
-                      itemCount: products.length,
+                      itemCount: viewModel
+                          .productService.productsBasedOnACategory.length,
                       itemBuilder: (context, index) {
-                        final product = products.elementAt(index);
-                        return ProductCard(product: product);
+                        final product = viewModel
+                            .productService.productsBasedOnACategory
+                            .elementAt(index);
+                        return ProductCard(
+                            handleCallback: viewModel.handleCallback,
+                            product: product);
                       },
                     );
                   }

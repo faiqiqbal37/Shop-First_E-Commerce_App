@@ -12,7 +12,6 @@ class UserDetailViewModel extends BaseViewModel {
   final navigationService = locator<NavigationService>();
   final formKey = GlobalKey<FormState>();
 
-
   User user = User(
       userId: 'id',
       firstName: 'Guest',

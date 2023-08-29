@@ -20,14 +20,13 @@ class StartupView extends StackedView<StartupViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Colors.cyan,
+      backgroundColor: Colors.white,
       body: Center(
         child: Container(
-          color: Colors.cyan,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Welcome to app"),
+              Image.asset("assets/Logo/Minimalist Happy Shopping Logo.png"),
             ],
           ),
         ),

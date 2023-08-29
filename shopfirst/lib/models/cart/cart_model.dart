@@ -13,5 +13,8 @@ class Cart with _$Cart {
     required double totalPrice,
   }) = _Cart;
 
+  factory Cart.initialze(String cartId, String userId) =>
+      Cart(cartId: cartId, userId: userId, products: [], totalPrice: 0);
+
   factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
 }

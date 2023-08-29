@@ -13,6 +13,7 @@ import '../../../services/authentication_service.dart';
 class SignupScreenViewModel extends BaseViewModel {
   final formKey = GlobalKey<FormState>();
   final uuid = Uuid();
+  bool obscureText = true;
 
   final navigationController = locator<NavigationService>();
   final authService = locator<AuthenticationService>();
@@ -37,6 +38,11 @@ class SignupScreenViewModel extends BaseViewModel {
   String _phone = '';
 
   String get email => _email;
+
+  void toggleObscureText() {
+    obscureText = !obscureText;
+    rebuildUi();
+  }
 
   set email(String value) {
     _email = value;

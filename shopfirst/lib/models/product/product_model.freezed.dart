@@ -28,6 +28,8 @@ mixin _$Product {
   String get category => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   bool get featured => throw _privateConstructorUsedError;
+  double get cartQuantity => throw _privateConstructorUsedError;
+  double get totalPriceInCart => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +49,9 @@ abstract class $ProductCopyWith<$Res> {
       double quantity,
       String category,
       String imageUrl,
-      bool featured});
+      bool featured,
+      double cartQuantity,
+      double totalPriceInCart});
 }
 
 /// @nodoc
@@ -71,6 +75,8 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
     Object? category = null,
     Object? imageUrl = null,
     Object? featured = null,
+    Object? cartQuantity = null,
+    Object? totalPriceInCart = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -105,6 +111,14 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
           ? _value.featured
           : featured // ignore: cast_nullable_to_non_nullable
               as bool,
+      cartQuantity: null == cartQuantity
+          ? _value.cartQuantity
+          : cartQuantity // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalPriceInCart: null == totalPriceInCart
+          ? _value.totalPriceInCart
+          : totalPriceInCart // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -124,7 +138,9 @@ abstract class _$$_ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
       double quantity,
       String category,
       String imageUrl,
-      bool featured});
+      bool featured,
+      double cartQuantity,
+      double totalPriceInCart});
 }
 
 /// @nodoc
@@ -145,6 +161,8 @@ class __$$_ProductCopyWithImpl<$Res>
     Object? category = null,
     Object? imageUrl = null,
     Object? featured = null,
+    Object? cartQuantity = null,
+    Object? totalPriceInCart = null,
   }) {
     return _then(_$_Product(
       id: null == id
@@ -179,6 +197,14 @@ class __$$_ProductCopyWithImpl<$Res>
           ? _value.featured
           : featured // ignore: cast_nullable_to_non_nullable
               as bool,
+      cartQuantity: null == cartQuantity
+          ? _value.cartQuantity
+          : cartQuantity // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalPriceInCart: null == totalPriceInCart
+          ? _value.totalPriceInCart
+          : totalPriceInCart // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -194,7 +220,9 @@ class _$_Product implements _Product {
       required this.quantity,
       required this.category,
       required this.imageUrl,
-      this.featured = false});
+      this.featured = false,
+      this.cartQuantity = 0,
+      this.totalPriceInCart = 0});
 
   factory _$_Product.fromJson(Map<String, dynamic> json) =>
       _$$_ProductFromJson(json);
@@ -216,10 +244,16 @@ class _$_Product implements _Product {
   @override
   @JsonKey()
   final bool featured;
+  @override
+  @JsonKey()
+  final double cartQuantity;
+  @override
+  @JsonKey()
+  final double totalPriceInCart;
 
   @override
   String toString() {
-    return 'Product(id: $id, name: $name, description: $description, price: $price, quantity: $quantity, category: $category, imageUrl: $imageUrl, featured: $featured)';
+    return 'Product(id: $id, name: $name, description: $description, price: $price, quantity: $quantity, category: $category, imageUrl: $imageUrl, featured: $featured, cartQuantity: $cartQuantity, totalPriceInCart: $totalPriceInCart)';
   }
 
   @override
@@ -239,13 +273,17 @@ class _$_Product implements _Product {
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.featured, featured) ||
-                other.featured == featured));
+                other.featured == featured) &&
+            (identical(other.cartQuantity, cartQuantity) ||
+                other.cartQuantity == cartQuantity) &&
+            (identical(other.totalPriceInCart, totalPriceInCart) ||
+                other.totalPriceInCart == totalPriceInCart));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, description, price,
-      quantity, category, imageUrl, featured);
+      quantity, category, imageUrl, featured, cartQuantity, totalPriceInCart);
 
   @JsonKey(ignore: true)
   @override
@@ -270,7 +308,9 @@ abstract class _Product implements Product {
       required final double quantity,
       required final String category,
       required final String imageUrl,
-      final bool featured}) = _$_Product;
+      final bool featured,
+      final double cartQuantity,
+      final double totalPriceInCart}) = _$_Product;
 
   factory _Product.fromJson(Map<String, dynamic> json) = _$_Product.fromJson;
 
@@ -290,6 +330,10 @@ abstract class _Product implements Product {
   String get imageUrl;
   @override
   bool get featured;
+  @override
+  double get cartQuantity;
+  @override
+  double get totalPriceInCart;
   @override
   @JsonKey(ignore: true)
   _$$_ProductCopyWith<_$_Product> get copyWith =>

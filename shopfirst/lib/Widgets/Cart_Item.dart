@@ -1,26 +1,59 @@
 import 'package:flutter/material.dart';
+import '../app/app.locator.dart';
+import '../models/product/product_model.dart';
+import '../services/cart_service.dart';
 
-class CartItem extends StatelessWidget {
+class CartItem extends StatefulWidget {
+  final Product cartItem;
+
+  CartItem({required this.cartItem});
+
+  @override
+  _CartItemState createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItem> {
+  int quantity = 1; // Initial quantity
+  final cartService = locator<CartService>();
+
+  void _incrementQuantity(String productId) {
+    setState(() {
+      cartService.increaseQuantity(productId);
+    });
+  }
+
+  void _decrementQuantity() {
+    setState(() {
+      cartService.decreaseQuantity(widget.cartItem.id);
+      cartService.removeFromCart(widget.cartItem);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: ListTile(
-        leading: CircleAvatar(
-          child: Icon(Icons.verified_user),
-        ),
-        title: Text("Title"),
-        subtitle: Text('Price'),
+        leading: Image(image: NetworkImage(widget.cartItem.imageUrl)),
+        title: Text("${widget.cartItem.name}"),
+        subtitle: Text('PKR: ${widget.cartItem.price}'),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              onPressed: () => {},
+              onPressed: () {
+                // You can also update the cart service here if needed
+                _decrementQuantity();
+              },
               icon: Icon(Icons.remove),
             ),
-            Text("Quantity"),
+            Text("${widget.cartItem.cartQuantity}"),
             IconButton(
-              onPressed: () => {},
+              onPressed: () {
+                cartService.increaseQuantity(widget.cartItem.id);
+
+                // You can also update the cart service here if needed
+              },
               icon: Icon(Icons.add),
             ),
           ],

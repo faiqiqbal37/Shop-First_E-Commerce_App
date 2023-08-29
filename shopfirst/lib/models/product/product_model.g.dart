@@ -15,6 +15,8 @@ _$_Product _$$_ProductFromJson(Map<String, dynamic> json) => _$_Product(
       category: json['category'] as String,
       imageUrl: json['imageUrl'] as String,
       featured: json['featured'] as bool? ?? false,
+      cartQuantity: (json['cartQuantity'] as num?)?.toDouble() ?? 0,
+      totalPriceInCart: (json['totalPriceInCart'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$$_ProductToJson(_$_Product instance) =>
@@ -27,4 +29,6 @@ Map<String, dynamic> _$$_ProductToJson(_$_Product instance) =>
       'category': instance.category,
       'imageUrl': instance.imageUrl,
       'featured': instance.featured,
+      'cartQuantity': instance.cartQuantity,
+      'totalPriceInCart': instance.totalPriceInCart,
     };

@@ -21,8 +21,8 @@ class UserDetailView extends StackedView<UserDetailViewModel> {
           padding: EdgeInsets.all(16.0),
           child: viewModel.authService.userToken!.isLoggedIn
               ? Form(
-            key: viewModel.formKey,
-            child: Column(
+                  key: viewModel.formKey,
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       CircleAvatar(
@@ -34,36 +34,41 @@ class UserDetailView extends StackedView<UserDetailViewModel> {
                       TextFormField(
                         validator: viewModel.validateName,
                         controller: viewModel.firstNameController,
-                        decoration: InputDecoration(labelText: 'First Name'),
+                        decoration: InputDecoration(labelText: '${viewModel.authService.userToken?.firstName}'),
                       ),
                       TextFormField(
                         validator: viewModel.validateName,
                         controller: viewModel.lastNameController,
-                        decoration: InputDecoration(labelText: 'Last Name'),
+                        decoration: InputDecoration(labelText: '${viewModel.authService.userToken?.lastName}'),
                       ),
                       TextFormField(
                         validator: viewModel.validateAddress,
                         controller: viewModel.addressController,
-                        decoration: InputDecoration(labelText: 'Address'),
+                        decoration: InputDecoration(labelText: '${viewModel.authService.userToken?.address}'),
                       ),
                       TextFormField(
                         validator: viewModel.validatePhone,
                         controller: viewModel.phoneController,
-                        decoration: InputDecoration(labelText: 'Phone Number'),
+                        decoration: InputDecoration(labelText: '0${viewModel.authService.userToken?.phone}'),
                         keyboardType: TextInputType.phone,
                       ),
                       SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
                           if (viewModel.formKey.currentState!.validate()) {
-                          viewModel.updateUser(
-                              userId: viewModel.authService.userToken!.userId,
-                              phone: double.parse(viewModel.phoneController.text),
-                              firstname: viewModel.firstNameController.text,
-                              address: viewModel.addressController.text,
-                              lastname: viewModel.lastNameController.text).then((value) => viewModel.clearFields());
-                        }
-                          },
+                            viewModel
+                                .updateUser(
+                                    userId:
+                                        viewModel.authService.userToken!.userId,
+                                    phone: double.parse(
+                                        viewModel.phoneController.text),
+                                    firstname:
+                                        viewModel.firstNameController.text,
+                                    address: viewModel.addressController.text,
+                                    lastname: viewModel.lastNameController.text)
+                                .then((value) => viewModel.clearFields());
+                          }
+                        },
                         child: Text('Save'),
                       ),
                       SizedBox(
@@ -71,14 +76,15 @@ class UserDetailView extends StackedView<UserDetailViewModel> {
                       ),
                       ElevatedButton(
                         onPressed: () => {
-                          viewModel.navigationService.navigateToChangePasswordView()
+                          viewModel.navigationService
+                              .navigateToChangePasswordView()
                         },
-                        child:
-                            Text("Change Password", textAlign: TextAlign.center),
+                        child: Text("Change Password",
+                            textAlign: TextAlign.center),
                       )
                     ],
                   ),
-              )
+                )
               : Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

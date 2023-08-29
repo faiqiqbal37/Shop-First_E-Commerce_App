@@ -11,6 +11,7 @@ import 'package:shopfirst/models/user/user_model.dart' as UserModel;
 
 class LoginScreenViewModel extends BaseViewModel {
   late final UserModel.User user;
+  bool obscureText = true;
 
   final formKey = GlobalKey<FormState>();
 
@@ -29,6 +30,11 @@ class LoginScreenViewModel extends BaseViewModel {
 
   String get email => _email;
 
+  void toggleObscureText() {
+    obscureText = !obscureText;
+    rebuildUi();
+  }
+
   set email(String value) {
     _email = value;
   }
@@ -43,6 +49,13 @@ class LoginScreenViewModel extends BaseViewModel {
     if (formKey.currentState!.validate()) {
       authService.signInWithEmailAndPassword(email, password, context);
       authService.setStateOfUser(email);
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    if (formKey.currentState!.validate()) {
+      authService.signInWithGoogle();
+      //authService.setStateOfUser(email);
     }
   }
 

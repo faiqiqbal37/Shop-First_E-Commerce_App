@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "291950441075",
+    "firebase_url": "https://shop-first-d5d48-default-rtdb.firebaseio.com",
     "project_id": "shop-first-d5d48",
     "storage_bucket": "shop-first-d5d48.appspot.com"
   },
@@ -14,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "291950441075-pbiof8vascrhjitl7f7d0ti6g98idjnj.apps.googleusercontent.com",
+          "client_id": "291950441075-hdiso5apeh4ei3l5iuq22saojcl8u30b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +28,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "291950441075-pbiof8vascrhjitl7f7d0ti6g98idjnj.apps.googleusercontent.com",
+              "client_id": "291950441075-hdiso5apeh4ei3l5iuq22saojcl8u30b.apps.googleusercontent.com",
               "client_type": 3
             },
             {

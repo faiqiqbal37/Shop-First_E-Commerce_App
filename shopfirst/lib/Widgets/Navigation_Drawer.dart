@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:shopfirst/Widgets/Cart_Item.dart';
 import 'package:shopfirst/Widgets/Product_Card.dart';
 import 'package:shopfirst/app/app.locator.dart';
@@ -81,7 +82,7 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.category),
-            title: Text('Categories'),
+            title: Text('Products'),
             onTap: () {
               _navigationController.navigateToProductsView();
 // Handle navigation to the favorites screen
@@ -99,11 +100,6 @@ class MyDrawer extends StatelessWidget {
               _navigationController.navigateToCartView();
             },
           ),
-          ListTile(
-            leading: Icon(Icons.warning),
-            title: Text('Test Screen'),
-            onTap: () {},
-          ),
           Divider(
             height: 30,
             color: Colors.black,
@@ -114,6 +110,7 @@ class MyDrawer extends StatelessWidget {
                   onPressed: () {
                     _authController.signOut();
                     _navigationController.navigateToLoginScreenView();
+                    //Restart.restartApp();
                   },
                   child: Text("Logout"),
                   style: ElevatedButton.styleFrom(

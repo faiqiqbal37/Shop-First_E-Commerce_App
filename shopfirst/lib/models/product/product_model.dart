@@ -15,6 +15,8 @@ class Product with _$Product {
     required String category,
     required String imageUrl,
     @Default(false) bool featured,
+    @Default(0) double cartQuantity,
+    @Default(0) double totalPriceInCart,
   }) = _Product;
 
   factory Product.fromJson(Map<String, dynamic> json) =>
