@@ -11,7 +11,6 @@ class Order with _$Order {
     required String orderId,
     required String userId,
     required List<Product> products,
-    required DateTime dateTime,
     required double totalPrice,
   }) = _Order;
 

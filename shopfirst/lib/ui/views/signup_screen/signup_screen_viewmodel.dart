@@ -57,7 +57,7 @@ class SignupScreenViewModel extends BaseViewModel {
     required String lastName,
     required String email,
     required String password,
-    required double phone,
+    required String phone,
     required String address,
   }) async {
     userService.addUser(

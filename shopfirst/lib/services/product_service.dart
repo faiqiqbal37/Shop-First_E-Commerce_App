@@ -80,21 +80,6 @@ class ProductService {
   }
 
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getProducts() async {
-    // List<Product> products = List.empty();
-    // try {
-    //   if (querySnapshot.docs.isNotEmpty) {
-    //     querySnapshot.docs.forEach((element) {
-    //       Map<String, dynamic> data = element.data() as Map<String, dynamic>;
-    //       Product product = Product.fromJson(data);
-    //       products.add(product);
-    //       print("Product Name: ${product.name}");
-    //     });
-    //     return products;
-    //   }
-    // }
-    // catch(e){
-    //   throw e;
-    //   rethrow;
     try {
       return db.snapshots();
     } catch (e) {
@@ -117,24 +102,43 @@ class ProductService {
         Wishlist tempWishlist = Wishlist.fromJson(wishList);
         print("In Function1");
         tempList = tempWishlist.products;
-        print("Products Are: $tempList");
+        print("Products Are: $tempWishlist");
         tempWishlist.products.forEach((element) {
-          print("Products Are: $element");
+          print("Products Are Not: $element");
 
-          if (element == null) {
+          if (products.isEmpty) {
             tempList.add(product);
+            print("The added product is: $product");
+
+            List<Map<String, dynamic>> productListJson = tempList
+                .map((product) => product.toJson())
+                .toList();
+
             dbWishlist.doc(tempWishlist.wishListId).update({
-              'products': tempList,
+              'products': FieldValue.arrayUnion(productListJson),
             });
           }
 
           if (element.id == product.id) {
           } else {
+
             print("In Function");
-            tempList.add(element);
-            dbWishlist.doc(tempWishlist.wishListId).update({
-              'products': tempList,
+            tempList = [...tempList,product];
+            print("$product");
+
+            List<Map<String, dynamic>> productListJson = tempList
+                .map((product) => product.toJson())
+                .toList();
+
+            FirebaseFirestore.instance
+                .collection('wishlist')
+                .doc(tempWishlist.wishListId)
+                .set({
+              'wishListId': tempWishlist.wishListId,
+              'userId': authService.userToken!.userId,
+              'products': FieldValue.arrayUnion(productListJson)
             });
+
           }
         });
       });
@@ -142,15 +146,45 @@ class ProductService {
       print("Print 4");
       String wishlistId = uuid.v4();
       tempList.add(product);
+
+      List<Map<String, dynamic>> productListJson = tempList
+          .map((product) => product.toJson())
+          .toList();
+
       print("Products Are: $tempList");
-      Wishlist tempWishList = Wishlist(
-          wishListId: wishlistId,
-          userId: authService.userToken!.userId,
-          products: tempList);
+      // Wishlist tempWishList = Wishlist(
+      //     wishListId: wishlistId,
+      //     userId: authService.userToken!.userId,
+      //     products: tempList);
       FirebaseFirestore.instance
           .collection('wishlist')
           .doc(wishlistId)
-          .set(tempWishList.toJson());
+          .set({
+        'wishListId': wishlistId,
+        'userId': authService.userToken!.userId,
+        'products': FieldValue.arrayUnion(productListJson)
+      });
+    }
+  }
+
+  Future<void> removeFromWishlist(String producId) async {
+
+    final userId = authService.userToken?.userId;
+
+
+    QuerySnapshot querySnapshot =
+    await dbWishlist.where('userId', isEqualTo: userId).get();
+
+    for (QueryDocumentSnapshot querySnapshot in querySnapshot.docs) {
+      // Retrieve the list of products from the order document
+      List<Map<String, dynamic>> products =
+      List.from(querySnapshot['products']);
+
+      // Remove the desired product from the list
+      products.removeWhere((product) => product['id'] == producId);
+
+      // Update the order document with the modified list of products
+      await querySnapshot.reference.update({'products': products});
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:shopfirst/app/app.router.dart';
 import 'package:shopfirst/styles/styles.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../Widgets/Navigation_Drawer.dart';
 import 'cart_viewmodel.dart';
 
 class CartView extends StackedView<CartViewModel> {
@@ -19,6 +20,7 @@ class CartView extends StackedView<CartViewModel> {
       appBar: AppBar(
         title: Text("Shopping Cart"),
       ),
+      drawer: MyDrawer(),
       body: SafeArea(
         child: Container(
             child: Column(children: [
@@ -33,7 +35,10 @@ class CartView extends StackedView<CartViewModel> {
               itemBuilder: (context, index) {
                 final product =
                     viewModel.cartService.cartProductsList.elementAt(index);
-                return CartItem(cartItem: product);
+                return CartItem(
+                  cartItem: product,
+                  handleClick: viewModel.handleClick,
+                );
               },
             ),
           ),
@@ -58,7 +63,7 @@ class CartView extends StackedView<CartViewModel> {
                                           .length ==
                                       0
                                   ? "PKR: 0"
-                                  : "PKR: ${viewModel.calculateTotalPrice()}")
+                                  : "PKR: ${viewModel.cartService.totalCartPrice}")
                             ],
                           ),
                         ),
@@ -75,7 +80,7 @@ class CartView extends StackedView<CartViewModel> {
                               Text("Total"),
                               Text(viewModel
                                       .cartService.cartProductsList.isNotEmpty
-                                  ? "PKR: ${viewModel.totalCartPrice + 150}"
+                                  ? "PKR: ${viewModel.cartService.totalCartPrice + 150}"
                                   : "PKR: 0")
                             ],
                           ),
@@ -83,8 +88,11 @@ class CartView extends StackedView<CartViewModel> {
                         Container(
                             child: viewModel.authService.userToken!.isLoggedIn
                                 ? ElevatedButton(
-                                    onPressed: () =>
-                                        {viewModel.navigationService.navigateToCheckoutView()},
+                                    onPressed: () {
+                                      viewModel.navigationService
+                                          .navigateToCheckoutView();
+                                      viewModel.initializeCart();
+                                    },
                                     child: Text("Checkout"))
                                 : ElevatedButton(
                                     onPressed: () => viewModel.navigationService

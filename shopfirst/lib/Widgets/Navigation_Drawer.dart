@@ -91,15 +91,15 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.favorite),
             title: Text('WishList'),
-            onTap: () {},
+            onTap: () {_navigationController.navigateToWishlistView();},
           ),
-          ListTile(
+          _authController.userToken!.isLoggedIn ? ListTile(
             leading: Icon(Icons.shopping_cart),
             title: Text('Orders'),
             onTap: () {
-              _navigationController.navigateToCartView();
+              _navigationController.navigateToOrderHistoryView();
             },
-          ),
+          ) : Divider(),
           Divider(
             height: 30,
             color: Colors.black,

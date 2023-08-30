@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopfirst/app/app.router.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../Widgets/Cart_Item.dart';
@@ -25,8 +26,7 @@ class CheckoutView extends StackedView<CheckoutViewModel> {
             Text(
               'Order Summary',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)
-              ,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),
             Expanded(
@@ -34,21 +34,25 @@ class CheckoutView extends StackedView<CheckoutViewModel> {
                 itemCount: viewModel.cartService.cartProductsList.length,
                 itemBuilder: (context, index) {
                   final product =
-                  viewModel.cartService.cartProductsList.elementAt(index);
-                  return CartItem(cartItem: product);
+                      viewModel.cartService.cartProductsList.elementAt(index);
+                  return CartItem(
+                    cartItem: product,
+                    handleClick: viewModel.handleClick,
+                  );
                 },
               ),
             ),
             Divider(),
             ListTile(
-              title: Text('Total',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              trailing: Text('\$35.00', style: TextStyle(fontWeight: FontWeight.bold)),
+              title: Text('Total',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              trailing: Text('\PKR: ${viewModel.cartService.totalCartPrice}',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
             ),
             SizedBox(height: 16),
             Text(
               'Shipping Address',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)
-              ,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
             Text('${viewModel.authService.userToken?.address}'),
@@ -60,12 +64,21 @@ class CheckoutView extends StackedView<CheckoutViewModel> {
             SizedBox(height: 8),
             Text('Cash'),
             SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {
-                viewModel.initializeOrder();
-                },
-              child: Text('Place Order'),
-            ),
+            viewModel.cartService.cartProductsList.isNotEmpty
+                ? ElevatedButton(
+                    onPressed: () {
+                      viewModel.initializeOrder();
+                      viewModel.navigationService
+                          .navigateToOrderCompletionView();
+                    },
+                    child: Text('Place Order'),
+                  )
+                : Text("Please Enter Items In Cart First",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold)),
           ],
         ),
       ),

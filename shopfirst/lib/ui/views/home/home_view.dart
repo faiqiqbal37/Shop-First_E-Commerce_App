@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shopfirst/Widgets/Product_List_Boxed.dart';
 import 'package:shopfirst/app/app.router.dart';
 import 'package:shopfirst/ui/views/products/products_view.dart';
 import 'package:stacked/stacked.dart';
@@ -27,7 +28,9 @@ class HomeView extends StackedView<HomeViewModel> {
   @override
   void onViewModelReady(HomeViewModel viewModel) {
     viewModel.getAllProducts();
+    viewModel.rebuildUi();
     super.onViewModelReady(viewModel);
+
   }
 
   @override
@@ -77,30 +80,31 @@ class HomeView extends StackedView<HomeViewModel> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            margin: EdgeInsets.only(top: 5),
-            color: Colors.white,
-            height: 90,
-            child: Wrap(
-              children: [
-                SizedBox(
-                  child: TextField(
-                      decoration: InputDecoration(
-                          labelText: "Search",
-                          prefixIcon: Icon(Icons.search),
-                          iconColor: Colors.black)),
-                  height: 40,
-                  width: 330,
-                )
-              ],
-            ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.only(top: 5),
+          //   color: Colors.white,
+          //   height: 90,
+          //   child: Wrap(
+          //     children: [
+          //       SizedBox(
+          //         child: TextField(
+          //             decoration: InputDecoration(
+          //                 labelText: "Search",
+          //                 prefixIcon: Icon(Icons.search),
+          //                 iconColor: Colors.black)),
+          //         height: 40,
+          //         width: 330,
+          //       )
+          //     ],
+          //   ),
+          // ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Container(
                     height: 180,
+                    margin: EdgeInsets.only(top: 5),
                     child: CarouselSlider(
                       items: imageUrls.map(
                         (imageUrl) {
@@ -119,16 +123,48 @@ class HomeView extends StackedView<HomeViewModel> {
                     ),
                   ),
                   Container(
-                    color: Colors.red,
-                    height: 245,
+                    height: 48,
+                    width: 220,
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.blue),
+                    child: Text("Featured Products",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center),
                   ),
                   Container(
-                    color: Colors.yellow,
-                    height: 100,
+                    color: Colors.red,
+                    height: 350,
+                    child: ProductListBoxed(),
+                  ),
+                  Container(
+                    height: 48,
+                    width: 220,
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.blue),
+                    child: Text("All Products",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center),
                   ),
                   Container(
                     color: Colors.white,
-                  ),
+                    height: 300,
+                    child: ListView.builder(
+                      itemCount: viewModel.productService.products.length,
+                      itemBuilder: (context, index) {
+                        final product =
+                            viewModel.productService.products.elementAt(index);
+                        return ProductCard(
+                            handleCallback: viewModel.handleCallback,
+                            product: product);
+                      },
+                    ),
+                  )
                 ],
               ),
             ),

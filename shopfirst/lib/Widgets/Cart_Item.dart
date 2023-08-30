@@ -5,8 +5,9 @@ import '../services/cart_service.dart';
 
 class CartItem extends StatefulWidget {
   final Product cartItem;
+  final Function() handleClick;
 
-  CartItem({required this.cartItem});
+  CartItem({required this.cartItem, required this.handleClick});
 
   @override
   _CartItemState createState() => _CartItemState();
@@ -44,6 +45,7 @@ class _CartItemState extends State<CartItem> {
               onPressed: () {
                 // You can also update the cart service here if needed
                 _decrementQuantity();
+                widget.handleClick();
               },
               icon: Icon(Icons.remove),
             ),
@@ -51,6 +53,7 @@ class _CartItemState extends State<CartItem> {
             IconButton(
               onPressed: () {
                 cartService.increaseQuantity(widget.cartItem.id);
+                widget.handleClick();
 
                 // You can also update the cart service here if needed
               },

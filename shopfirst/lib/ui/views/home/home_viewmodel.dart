@@ -48,6 +48,10 @@ class HomeViewModel extends BaseViewModel {
     });
   }
 
+  void handleCallback() {
+    rebuildUi();
+  }
+
   int getProductCountInCart() {
     print("The Count is: ${cartService.cartProductsList.length}");
     return cartService.cartProductsList.length;

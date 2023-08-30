@@ -25,7 +25,7 @@ mixin _$User {
   String get lastName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
-  double get phone => throw _privateConstructorUsedError;
+  String get phone => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   bool get isLoggedIn => throw _privateConstructorUsedError;
 
@@ -45,7 +45,7 @@ abstract class $UserCopyWith<$Res> {
       String lastName,
       String email,
       String password,
-      double phone,
+      String phone,
       String address,
       bool isLoggedIn});
 }
@@ -96,7 +96,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       phone: null == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as double,
+              as String,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -121,7 +121,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String lastName,
       String email,
       String password,
-      double phone,
+      String phone,
       String address,
       bool isLoggedIn});
 }
@@ -168,7 +168,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
       phone: null == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as double,
+              as String,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -207,7 +207,7 @@ class _$_User implements _User {
   @override
   final String password;
   @override
-  final double phone;
+  final String phone;
   @override
   final String address;
   @override
@@ -264,7 +264,7 @@ abstract class _User implements User {
       required final String lastName,
       required final String email,
       required final String password,
-      required final double phone,
+      required final String phone,
       required final String address,
       final bool isLoggedIn}) = _$_User;
 
@@ -281,7 +281,7 @@ abstract class _User implements User {
   @override
   String get password;
   @override
-  double get phone;
+  String get phone;
   @override
   String get address;
   @override

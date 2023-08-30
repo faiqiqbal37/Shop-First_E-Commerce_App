@@ -12,7 +12,7 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       lastName: json['lastName'] as String,
       email: json['email'] as String,
       password: json['password'] as String,
-      phone: (json['phone'] as num).toDouble(),
+      phone: json['phone'] as String,
       address: json['address'] as String,
       isLoggedIn: json['isLoggedIn'] as bool? ?? false,
     );

@@ -11,6 +11,7 @@ class CartService {
 
   bool initializerFlag = false;
 
+  double totalCartPrice = 0;
   final authService = locator<AuthenticationService>();
   final uuid = Uuid();
 
@@ -21,19 +22,31 @@ class CartService {
     String id = uuid.v4();
     String userId = authService.userToken!.userId;
     Cart cartTemp = Cart.initialze(id, userId);
-    cart = cartTemp.copyWith(userId: userId, cartId: id);
+    cart = cartTemp.copyWith(
+        userId: userId,
+        cartId: id,
+        totalPrice: totalCartPrice,
+        products: cartProductsList);
 
     try {
-      await db.doc(id).set(cart.toJson()); // Use .toJson() function
+      List<Map<String, dynamic>> productListJson =
+          cartProductsList.map((product) => product.toJson()).toList();
+
+      await db.doc(id).set({
+        'userId': userId,
+        'cartId': id,
+        'totalPrice': totalCartPrice,
+        'products': FieldValue.arrayUnion(productListJson),
+      }); // Use .toJson() function
     } catch (e) {
       print('Error adding user: $e');
       rethrow;
     }
   }
 
-  void addProductToCart(Product product) {
+  Future<void> addProductToCart(Product product) async {
     // decreasing quantity if the product exists
-    print(cartProductsList);
+    print("The Cart Is $cartProductsList");
     for (int i = 0; i < cartProductsList.length; i++) {
       if (cartProductsList[i].id == product.id) {
         double quantity = cartProductsList[i].quantity;
@@ -55,7 +68,7 @@ class CartService {
       double totalAmount = product.totalPriceInCart;
       quantity--;
       cartQuantity++;
-      totalAmount = totalAmount + product.price;
+      totalAmount = product.price;
       product = product.copyWith(
           quantity: quantity,
           cartQuantity: cartQuantity,
@@ -63,8 +76,18 @@ class CartService {
       if (cartProductsList.contains(product)) {
         print("Print 3");
       } else {
+        for (int i = 0; i < cartProductsList.length; i++) {
+          if (cartProductsList[i].id == product.id) {
+            print("Print 4");
+            cartProductsList[i] = product.copyWith(
+                quantity: quantity,
+                cartQuantity: cartQuantity,
+                totalPriceInCart: totalAmount);
+          }
+        }
+
         cartProductsList.add(product);
-        print("Print 4");
+        print("Print 5");
         product = product.copyWith(
             quantity: quantity,
             cartQuantity: cartQuantity,
@@ -75,21 +98,36 @@ class CartService {
       print(
           "Product Name: ${element.name} | Product Quantity: ${element.quantity}  ");
     });
+
+    calculateTotalPrice();
+
+    // try {
+    //   print('Pushing Cart................');
+    //   await db.doc(cart.cartId).set(cart.toJson()); // Use .toJson() function
+    // } catch (e) {
+    //   print('Error adding cart: $e');
+    //   rethrow;
+    // }
   }
 
-  double calculateTotalPrice() {
-    double totalCartPrice = 0;
+  void calculateTotalPrice() {
     final List<Product> list = cartProductsList;
 
-    list.forEach((element) {
-      totalCartPrice = element.totalPriceInCart + totalCartPrice;
-    });
-    return totalCartPrice;
+    print("The List Is:   $list");
+
+    for (int i = 0; i < list.length; i++) {
+      totalCartPrice = list[i].totalPriceInCart + totalCartPrice;
+    }
   }
 
   void removeFromCart(Product product) {
+    double price = product.totalPriceInCart;
+    price = price - product.price;
+    product = product.copyWith(totalPriceInCart: price);
+
     print("1 :${cartProductsList.length}");
     int length = cartProductsList.length;
+
     // decreasing quantity if the product exists
     List<Product> temp = [];
     if (cartProductsList.contains(product)) {

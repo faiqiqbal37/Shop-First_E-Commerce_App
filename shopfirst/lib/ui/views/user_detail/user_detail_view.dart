@@ -25,31 +25,41 @@ class UserDetailView extends StackedView<UserDetailViewModel> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      CircleAvatar(
-                        radius: 48.0,
-                        backgroundImage: NetworkImage(
-                            'https://via.placeholder.com/150'), // Replace with user image URL
-                      ),
                       SizedBox(height: 16),
+                      Text("First Name:",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,), ),
                       TextFormField(
                         validator: viewModel.validateName,
                         controller: viewModel.firstNameController,
-                        decoration: InputDecoration(labelText: '${viewModel.authService.userToken?.firstName}'),
+                        decoration: InputDecoration(
+                            labelText:
+                                '${viewModel.authService.userToken?.firstName}'),
                       ),
+
+                      Text("Last Name:",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,)),
                       TextFormField(
                         validator: viewModel.validateName,
                         controller: viewModel.lastNameController,
-                        decoration: InputDecoration(labelText: '${viewModel.authService.userToken?.lastName}'),
+                        decoration: InputDecoration(
+                            labelText:
+                                '${viewModel.authService.userToken?.lastName}'),
                       ),
+
+                      Text("Address:", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,)),
                       TextFormField(
                         validator: viewModel.validateAddress,
                         controller: viewModel.addressController,
-                        decoration: InputDecoration(labelText: '${viewModel.authService.userToken?.address}'),
+                        decoration: InputDecoration(
+                            labelText:
+                                '${viewModel.authService.userToken?.address}'),
                       ),
+
+                      Text("Phone Number:", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,)),
                       TextFormField(
                         validator: viewModel.validatePhone,
                         controller: viewModel.phoneController,
-                        decoration: InputDecoration(labelText: '0${viewModel.authService.userToken?.phone}'),
+                        decoration: InputDecoration(
+                            labelText:
+                                '${viewModel.authService.userToken?.phone}'),
                         keyboardType: TextInputType.phone,
                       ),
                       SizedBox(height: 16),
@@ -60,8 +70,7 @@ class UserDetailView extends StackedView<UserDetailViewModel> {
                                 .updateUser(
                                     userId:
                                         viewModel.authService.userToken!.userId,
-                                    phone: double.parse(
-                                        viewModel.phoneController.text),
+                                    phone: viewModel.phoneController.text,
                                     firstname:
                                         viewModel.firstNameController.text,
                                     address: viewModel.addressController.text,

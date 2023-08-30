@@ -34,7 +34,7 @@ class UserService {
     required String lastName,
     required String email,
     required String password,
-    required double phone,
+    required String phone,
     required String address,
   }) async {
     String id = uuid.v4();
@@ -61,7 +61,7 @@ class UserService {
     required String userId,
     required String firstname,
     required String lastname,
-    required double phone,
+    required String phone,
     required String address,
   }) async {
     try {

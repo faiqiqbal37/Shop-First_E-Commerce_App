@@ -18,7 +18,7 @@ class UserDetailViewModel extends BaseViewModel {
       lastName: 'lastName',
       email: 'email',
       password: 'password',
-      phone: 11111111111,
+      phone: "11111111111",
       address: 'address');
 
   TextEditingController firstNameController = TextEditingController();
@@ -29,7 +29,7 @@ class UserDetailViewModel extends BaseViewModel {
 
   Future<void> updateUser({
     required String userId,
-    required double phone,
+    required String phone,
     required String firstname,
     required String lastname,
     required String address,

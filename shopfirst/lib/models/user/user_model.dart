@@ -21,7 +21,7 @@ class User with _$User {
     required String lastName,
     required String email,
     required String password,
-    required double phone,
+    required String phone,
     required String address,
     @Default(false) bool isLoggedIn,
   }) = _User;

@@ -15,7 +15,7 @@ class SignupScreenView extends StackedView<SignupScreenViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -192,8 +192,8 @@ class SignupScreenView extends StackedView<SignupScreenViewModel> {
                                       .validate()) {
                                     viewModel
                                         .addUser(
-                                            phone: double.parse(
-                                                viewModel.phoneController.text),
+                                            phone:
+                                                viewModel.phoneController.text,
                                             password: viewModel
                                                 .passwordController.text,
                                             email:

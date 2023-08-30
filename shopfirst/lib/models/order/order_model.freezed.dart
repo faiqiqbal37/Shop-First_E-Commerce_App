@@ -23,7 +23,6 @@ mixin _$Order {
   String get orderId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   List<Product> get products => throw _privateConstructorUsedError;
-  DateTime get dateTime => throw _privateConstructorUsedError;
   double get totalPrice => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +39,6 @@ abstract class $OrderCopyWith<$Res> {
       {String orderId,
       String userId,
       List<Product> products,
-      DateTime dateTime,
       double totalPrice});
 }
 
@@ -60,7 +58,6 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
     Object? orderId = null,
     Object? userId = null,
     Object? products = null,
-    Object? dateTime = null,
     Object? totalPrice = null,
   }) {
     return _then(_value.copyWith(
@@ -76,10 +73,6 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.products
           : products // ignore: cast_nullable_to_non_nullable
               as List<Product>,
-      dateTime: null == dateTime
-          ? _value.dateTime
-          : dateTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       totalPrice: null == totalPrice
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
@@ -98,7 +91,6 @@ abstract class _$$_OrderCopyWith<$Res> implements $OrderCopyWith<$Res> {
       {String orderId,
       String userId,
       List<Product> products,
-      DateTime dateTime,
       double totalPrice});
 }
 
@@ -114,7 +106,6 @@ class __$$_OrderCopyWithImpl<$Res> extends _$OrderCopyWithImpl<$Res, _$_Order>
     Object? orderId = null,
     Object? userId = null,
     Object? products = null,
-    Object? dateTime = null,
     Object? totalPrice = null,
   }) {
     return _then(_$_Order(
@@ -130,10 +121,6 @@ class __$$_OrderCopyWithImpl<$Res> extends _$OrderCopyWithImpl<$Res, _$_Order>
           ? _value._products
           : products // ignore: cast_nullable_to_non_nullable
               as List<Product>,
-      dateTime: null == dateTime
-          ? _value.dateTime
-          : dateTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       totalPrice: null == totalPrice
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
@@ -149,7 +136,6 @@ class _$_Order implements _Order {
       {required this.orderId,
       required this.userId,
       required final List<Product> products,
-      required this.dateTime,
       required this.totalPrice})
       : _products = products;
 
@@ -169,13 +155,11 @@ class _$_Order implements _Order {
   }
 
   @override
-  final DateTime dateTime;
-  @override
   final double totalPrice;
 
   @override
   String toString() {
-    return 'Order(orderId: $orderId, userId: $userId, products: $products, dateTime: $dateTime, totalPrice: $totalPrice)';
+    return 'Order(orderId: $orderId, userId: $userId, products: $products, totalPrice: $totalPrice)';
   }
 
   @override
@@ -186,8 +170,6 @@ class _$_Order implements _Order {
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             const DeepCollectionEquality().equals(other._products, _products) &&
-            (identical(other.dateTime, dateTime) ||
-                other.dateTime == dateTime) &&
             (identical(other.totalPrice, totalPrice) ||
                 other.totalPrice == totalPrice));
   }
@@ -195,7 +177,7 @@ class _$_Order implements _Order {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, orderId, userId,
-      const DeepCollectionEquality().hash(_products), dateTime, totalPrice);
+      const DeepCollectionEquality().hash(_products), totalPrice);
 
   @JsonKey(ignore: true)
   @override
@@ -216,7 +198,6 @@ abstract class _Order implements Order {
       {required final String orderId,
       required final String userId,
       required final List<Product> products,
-      required final DateTime dateTime,
       required final double totalPrice}) = _$_Order;
 
   factory _Order.fromJson(Map<String, dynamic> json) = _$_Order.fromJson;
@@ -227,8 +208,6 @@ abstract class _Order implements Order {
   String get userId;
   @override
   List<Product> get products;
-  @override
-  DateTime get dateTime;
   @override
   double get totalPrice;
   @override

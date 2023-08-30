@@ -27,8 +27,8 @@ class ProductItemViewModel extends BaseViewModel {
     productService.getProductsBasedOnCategory(category);
   }
 
-  void addProductToCart(Product product) {
-    cartService.addProductToCart(product);
+  Future<void> addProductToCart(Product product) async {
+    await cartService.addProductToCart(product);
     rebuildUi();
   }
 }

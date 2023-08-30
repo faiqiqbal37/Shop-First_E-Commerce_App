@@ -26,7 +26,7 @@ class AuthenticationService {
       lastName: 'lastName',
       email: 'email',
       password: 'password',
-      phone: 11111111111,
+      phone: "11111111111",
       address: 'address');
 
   final navigationController = locator<NavigationService>();
@@ -91,7 +91,7 @@ class AuthenticationService {
           lastName: 'lastName',
           email: 'email',
           password: 'password',
-          phone: 11111111111,
+          phone: "11111111111",
           address: 'address');
       await locator.reset(dispose: true);
       setupLocator();
