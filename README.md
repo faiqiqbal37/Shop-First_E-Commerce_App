@@ -1,6 +1,6 @@
-# ShopFirst - Ecommerce Shopping Flutter App
+# ShopFirst - E-commerce Shopping Flutter App
 
-ShopFirst is a modern and user-friendly ecommerce shopping app built using Flutter, designed to provide a seamless shopping experience for both customers and store owners. This open-source project aims to showcase best practices in mobile app development and serve as a foundation for building your own ecommerce applications.
+ShopFirst is a modern and user-friendly e-commerce shopping app built using Flutter, designed to provide a seamless shopping experience for both customers and store owners. This open-source project aims to showcase best practices in mobile app development and serve as a foundation for building your own e-commerce applications.
 
 
 ## Features
@@ -24,13 +24,12 @@ To get started with ShopFirst, follow these steps:
 1. **Clone the Repository**: Clone this GitHub repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/shopfirst.git
+   git clone https://github.com/faiqiqbal37/Shop-First_E-Commerce_App
    ```
 
 2. **Install Dependencies**: Navigate to the project directory and install the required dependencies:
 
    ```bash
-   cd shopfirst
    flutter pub get
    ```
 
